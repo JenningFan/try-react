@@ -11,6 +11,8 @@ class Header2 extends Component {
         return (
             <div>
                 <Title/>
+                <Title/>
+                <Title/>
             </div>
         )
     }
