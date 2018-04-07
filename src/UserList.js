@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const user = [
+const users = [
     {name: 'wade', age: 18, sex: 'male'},
     {name: 'rose', age: 19, sex: 'male'},
     {name: 'jame', age: 20, sex: 'female'}
@@ -9,18 +9,19 @@ const user = [
 class UserList extends Component {
     render() {
         const jsxUser = []
-        for (const item of user) {
-            jsxUser.push(
-               <div>
-                   <div>姓名: { item.name }</div>
-                   <div>年龄: { item.age }</div>
-                   <div>性别: { item.sex }</div>
-                   <hr />
-               </div>
-            )
-        }
         return (
-            <div>{ jsxUser }</div>
+            <div>
+                {users.map((user) => {
+                    return (
+                        <div>
+                            <div>姓名: {user.name}</div>
+                            <div>年龄: {user.age}</div>
+                            <div>性别: {user.sex}</div>
+                            <hr />
+                        </div>
+                    )
+                })}
+            </div>
         )
     }
 }
