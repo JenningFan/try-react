@@ -6,7 +6,7 @@ import React, {Component} from 'react'
 class Lesson extends Component {
     constructor() {
         super()
-        this.handleOnLesson = this.handleOnLesson.bind(this)
+        //this.handleOnLesson = this.handleOnLesson.bind(this)
     }
 
     handleOnLesson(lesson, key2) {
