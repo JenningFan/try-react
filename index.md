@@ -1,7 +1,7 @@
 ### 书中摘抄
 
 1、可以用 JavaScript 对象来描述所有能用 HTML 表示的 UI 信息 => **所谓的 JSX 其实就是 JavaScript 对象**。JSX 是 JavaScript 语言的一种语法扩展，长得像 HTML，但并不是 HTML。
-=> React.js 可以用 JSX 来**描述你的组件长什么样的**。
+=> React.js 可以用 JSX 来**描述你的组件长什么样的**。所谓的 JSX 其实就是 **JavaScript 对象**
 
 2、React.js 中一切皆**组件** => 在编写 React.js 组件的时候，一般都需要继承 React.js 的 Component
 
@@ -14,3 +14,14 @@
 6、一定要使用 React.js 提供的 setState 方法，它接受一个对象或者函数(callback)作为参数。只需要传入需要更新的部分就可以了，而不需要传入整个对象。=> 当你调用 setState 的时候，React.js 并不会马上修改 state。（**异步的**）而是把这个对象放到一个更新队列里面，稍后才会从队列当中把新的状态提取出来合并到 state 当中，然后再触发组件更新。
 
 7、如果你想在事件函数(例如class中有个方法`handleOnClick(){console.log(this)}`)当中使用当前的实例(即`this`指向当前对象，而不是在严格模式下指向`undefined`)，你需要**手动地将实例方法 bind 到当前实例上**再传入给 React.js。
+
+8、`JQuery`: 数据变化 -> 手动操作 DOM 更新界面（数据变化后手动改变视图），手动管理数据和 DOM 之间的关系会导致代码可维护性变差、容易出错。=> 使用Jquery的时期都喜欢将HTML结构直接写在`.html`文件中，但是像React、Vue等组件化思维的开发框架则喜欢用JavaScript去生成HTML DOM结构，`.html`文件只是一个没有任何其他元素标签的载体，所有包括HTML、CSS、JS等内容都高内聚地封装在了一个文件（对象）中，React中是jsx，vue中是.vue文件。jsx或.vue文件最终都被loader编译成一个js编写的render函数，通过render函数去在页面上渲染组件，即组件中对应的结构(HTML)、样式(CSS)以及交互逻辑（js）都是由render函数去负责完成。
+
+9、组件化可以帮助我们解决前端结构的复用性问题，整个页面可以由这样的不同的组件组合、嵌套构成。
+
+10、`static defaultProps`作为点赞按钮组件的类属性，里面是对 props 中各个属性的默认配置。
+props 一旦传入，你就不可以在组件内部对它进行修改。但是你可以通过父组件主动重新渲染的方式来传入新的 props，从而达到更新的效果。
+
+11、`state` 是让组件控制自己的状态，`props` 是让外部对组件自己进行配置。尽量少地用 state，尽量多地用 props。
+
+12、如果你往 `{}` 放一个数组，React.js 会帮你把数组里面一个个元素罗列并且渲染出来。
