@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 
 
 class PercentageShower extends Component {
-    render() {
+    countNumber() {
         const number = this.props.number
+        if (number){}
+    }
+    render() {
+
         return (
             <div>
-                {Number(number)}
+                {Number(this.props.number) * 10}
             </div>
         );
     }

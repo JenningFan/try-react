@@ -20,4 +20,4 @@ class PercentageApp extends Component {
     }
 }
 
-export default componentName;
+export default PercentageApp;

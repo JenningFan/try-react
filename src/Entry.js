@@ -20,7 +20,6 @@ class Entry extends Component {
     render() {
         return (
             <div>
-
                 <LessonsList lessons={lessons}/>
             </div>
         )
