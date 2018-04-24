@@ -3,6 +3,12 @@ import Input from './Input';
 import PercentageShower from './PercentageShower';
 
 class PercentageApp extends Component {
+    constructor() {
+        super()
+        this.state = {
+            number: ''
+        }
+    }
 
     handleInputNumber(number) {
         this.setState({
