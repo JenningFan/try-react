@@ -10,7 +10,9 @@ import Dog2 from './Dog2'
 import UserList from './UserList';
 import Entry from './Entry'
 import PercentageApp from './PercentageApp'
+import Header3 from "./Header3";
 import registerServiceWorker from './registerServiceWorker';
+import Index2 from './Index2';
 
 const users = [
     {name: 'wade', age: 18, sex: 'male'},
@@ -28,7 +30,9 @@ const users = [
 //ReactDOM.render(<LikeButton likedText="已赞" unLikeText="赞" />, document.getElementById('root'))
 //ReactDOM.render(<UserList />, document.getElementById('root'))
 //ReactDOM.render(<Entry />, document.getElementById('root'))
-ReactDOM.render(<PercentageApp />, document.getElementById('root'))
+//ReactDOM.render(<PercentageApp />, document.getElementById('root'))
+//ReactDOM.render(<Header3 />, document.getElementById('root'))
+ReactDOM.render(<Index2 />, document.getElementById('root'))
 //ReactDOM.render(<div>{ users.map((user, i) => <UserList key={i} user={user} />) }</div>, document.getElementById('root'))
 registerServiceWorker();
 

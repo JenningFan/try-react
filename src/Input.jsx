@@ -21,7 +21,7 @@ class Input extends Component {
         return (
             <div>
                 <input type='number' 
-                onInput={this.handleOnInput.bind(this)} 
+                onChange={this.handleOnInput.bind(this)} 
                 value={this.state.value}  
                 />
             </div>

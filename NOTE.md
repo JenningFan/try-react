@@ -5,9 +5,20 @@
 
 2、React.js 中一切皆**组件** => 在编写 React.js 组件的时候，一般都需要继承 React.js 的 Component
 
-3、一个组件类必须要实现一个 `render` 方法，这个 render 方法必须要返回一个 `JSX 元素`。
+3、一个组件类必须要实现一个 `render` 方法，这个 `render` 方法必须要返回一个 `JSX 元素`。但这里要注意的是，必须要用一个外层的 JSX 元素把所有内容**包裹**起来。返回并列多个 `JSX 元素`是不合法的。
 
-4、{} 内可以放任何 JavaScript 的代码，包括**变量、表达式计算、函数执行等等。也可以放jsx**
+4、表达式插入：在 JSX 当中你可以插入 JavaScript 的表达式，表达式返回的结果会相应地渲染到页面上。表达式用 `{}` 包裹。`{}` 内可以放任何 JavaScript 的代码，包括**变量、表达式计算、函数执行等等。也可以放jsx**。  
+   表达式插入不仅仅可以用在标签内部，也可以用在标签的属性上，例如：
+   ```JavaScript
+   render() {
+        const className = 'header'
+        return (
+            <div className={className}>
+                <h1>React 小书</h1>
+            </div>
+        )
+   }
+   ```
 
 5、自定义的组件都必须要用**大写字母**开头，普通的 HTML 标签都用小写字母开头。
 
@@ -31,3 +42,18 @@ props 一旦传入，你就不可以在组件内部对它进行修改。但是�
 14、划分组件的目的性是为了代码可复用性、可维护性。
 
 15、React.js 中的 `<input />` 、`<textarea />`、`<select />` 等元素的 value 值如果是受到 React.js 的控制，那么就是受控组件。
+
+
+```JavaScript
+// React.createElement 中实例化一个 Header
+const header = new Header(props, children)
+// React.createElement 中调用 header.render 方法渲染组件的内容
+const headerJsxObject = header.render()
+
+// ReactDOM 用渲染后的 JavaScript 对象来来构建真正的 DOM 元素
+const headerDOM = createDOMFromObject(headerJsxObject)
+// ReactDOM 把 DOM 元素塞到页面上
+document.getElementById('root').appendChild(headerDOM)
+```
+16、如上代码中所示，React.js 将组件渲染，并且构造 DOM 元素然后塞入页面的过程称为组件的挂载，其实 React.js 内部对待每个组件都有这么一个过程，也就是初始化组件 -> 挂载到页面上的过程。   
+React.js 控制组件在页面上挂载和删除过程里面几个方法：`componentWillMount`：组件挂载开始之前，也就是在组件**调用 render 方法之前**调用。`componentDidMount`：组件挂载完成以后，也就是 **DOM 元素已经插入页面**后调用。`componentWillUnmount`：组件对应的 **DOM 元素从页面中删除之前**调用。
