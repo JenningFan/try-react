@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 
 class PercentageShower extends Component {
     
+    static defaultProps = {
+		percentageValue:''
+	}
     render() {
         return (
             <div>

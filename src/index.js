@@ -13,6 +13,7 @@ import PercentageApp from './PercentageApp'
 import Header3 from "./Header3";
 import registerServiceWorker from './registerServiceWorker';
 import Index2 from './Index2';
+import Index3 from './Index3';
 
 const users = [
     {name: 'wade', age: 18, sex: 'male'},
@@ -32,7 +33,8 @@ const users = [
 //ReactDOM.render(<Entry />, document.getElementById('root'))
 //ReactDOM.render(<PercentageApp />, document.getElementById('root'))
 //ReactDOM.render(<Header3 />, document.getElementById('root'))
-ReactDOM.render(<Index2 />, document.getElementById('root'))
+//ReactDOM.render(<Index2 />, document.getElementById('root'))
+ReactDOM.render(<Index3 />, document.getElementById('root'))
 //ReactDOM.render(<div>{ users.map((user, i) => <UserList key={i} user={user} />) }</div>, document.getElementById('root'))
 registerServiceWorker();
 
