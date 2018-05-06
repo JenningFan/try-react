@@ -14,6 +14,8 @@ import Header3 from "./Header3";
 import registerServiceWorker from './registerServiceWorker';
 import Index2 from './Index2';
 import Index3 from './Index3';
+import AutoFocusInput from './AutoFocusInput';
+import Post from './Post';
 
 const users = [
     {name: 'wade', age: 18, sex: 'male'},
@@ -34,7 +36,9 @@ const users = [
 //ReactDOM.render(<PercentageApp />, document.getElementById('root'))
 //ReactDOM.render(<Header3 />, document.getElementById('root'))
 //ReactDOM.render(<Index2 />, document.getElementById('root'))
-ReactDOM.render(<Index3 />, document.getElementById('root'))
+//ReactDOM.render(<Index3 />, document.getElementById('root'))
+//ReactDOM.render(<AutoFocusInput />, document.getElementById('root'))
+ReactDOM.render(<Post content='123' />, document.getElementById('root'))
 //ReactDOM.render(<div>{ users.map((user, i) => <UserList key={i} user={user} />) }</div>, document.getElementById('root'))
 registerServiceWorker();
 
