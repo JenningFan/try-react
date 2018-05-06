@@ -79,4 +79,22 @@ ReactDOM.render(
   document.getElementById('root')
 )
 ```
-基本原则：能不用 ref 就不用。特别是要避免用 ref 来做 React.js 本来就可以帮助你做到的页面自动更新的操作和事件监听。
+基本原则：能不用 ref 就不用。特别是要避免用 ref 来做 React.js 本来就可以帮助你做到的页面自动更新的操作和事件监听。  
+
+19、使用自定义组件的时候，可以在其中嵌套 JSX 结构。嵌套的结构在组件内部都可以通过 `props.children` 获取到，这种组件编写方式在编写容器类型的组件当中非常有用。`props.children`其实是个数组，这种嵌套的内容成为了 props.children 数组的机制使得我们编写组件变得非常的灵活，我们甚至可以在组件内部把数组中的 JSX 元素安置在不同的地方，这样通过这个布局组件，就可以在各个地方高度复用我们的布局。如：
+```JavaScript
+class Layout extends Component {
+  render () {
+    return (
+      <div className='two-cols-layout'>
+        <div className='sidebar'>
+          {this.props.children[0]}
+        </div>
+        <div className='main'>
+          {this.props.children[1]}
+        </div>
+      </div>
+    )
+  }
+}
+```
