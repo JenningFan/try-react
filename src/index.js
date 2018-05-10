@@ -52,8 +52,8 @@ const users = [
 //     document.getElementById('root'))
 //ReactDOM.render(<Editor />, document.getElementById('root'))
 const Post = getDefaultStyledPost({ color: 'red' })
-//ReactDOM.render(<Post style={{ color: 'blue', fontSize: '13px' }} />, document.getElementById('root'))
-ReactDOM.render(<Post style={{ fontSize: '12px' }} />, document.getElementById('root'))
+ReactDOM.render(<Post style={{ color: 'blue', fontSize: '13px' }} />, document.getElementById('root'))
+//ReactDOM.render(<Post style={{ fontSize: '12px' }} />, document.getElementById('root'))
 
 
 //ReactDOM.render(<div>{ users.map((user, i) => <UserList key={i} user={user} />) }</div>, document.getElementById('root'))

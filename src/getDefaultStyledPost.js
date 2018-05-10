@@ -7,11 +7,16 @@ const getDefaultStyledPost = (defaultStyle) => {
             const {style} = this.props
             console.log(style);
             
-            for (const key in style) {
-                if (style.hasOwnProperty(key)) {
-                    defaultStyle[key] = style[key];
-                }
-            }
+            /**ES5合并两个对象 */
+            // for (const key in style) {
+            //     if (style.hasOwnProperty(key)) {
+            //         defaultStyle[key] = style[key];
+            //     }
+            // }
+            
+            /**ES6合并两个对象 */
+            Object.assign(defaultStyle, style)
+            console.log(defaultStyle)
             return (
                 <p style={defaultStyle}>react</p>
             )
