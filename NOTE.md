@@ -97,4 +97,25 @@ class Layout extends Component {
     )
   }
 }
+```  
+
+20、出于安全考虑的原因（XSS 攻击），在 React.js 当中所有的表达式插入的内容都会被自动转义，如`{<h1>react</h1>}`，表达式插入并不会把一个 <h1> 渲染到页面，而是把它的文本形式渲染了。所以React.js 提供了一个属性 `dangerouslySetInnerHTML`，可以让我们设置动态设置元素的 innerHTML：
+```JavaScript
+render () {
+    return (
+      <div
+        className='editor-wrapper'
+        dangerouslySetInnerHTML={{__html: this.state.content}} />
+    )
+  }
+```   
+
+21、在React.js 中你需要把 CSS 属性变成一个对象再传给元素：
+```html
+<h1 style={{fontSize: '12px', color: 'red'}}>React.js</h1>
+```
+style 接受一个对象，这个对象里面是这个元素的 CSS 属性键值对，原来 CSS 属性中带 - 的元素都必须要去掉 - 换成驼峰命名，如 font-size 换成 fontSize。用对象作为 style 方便我们动态设置元素的样式。我们可以用 `props` 或者 `state` 中的数据**生成样式对象**再传给元素，然后用 setState 就可以修改样式。如：
+```JavaScript
+<h1 style={{fontSize: '12px', color: this.state.color}}>React.js 小书</h1>
+setState({color: 'blue'})
 ```
