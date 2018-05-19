@@ -119,3 +119,26 @@ style 接受一个对象，这个对象里面是这个元素的 CSS 属性键值
 <h1 style={{fontSize: '12px', color: this.state.color}}>React.js 小书</h1>
 setState({color: 'blue'})
 ```
+
+22、在React.js中通过 `PropTypes`给组件的**参数做类型限制**，可以在帮助我们迅速定位错误，这在构建大型应用程序的时候特别有用；另外，给组件加上 propTypes，也让组件的开发、使用更加规范清晰。
+使用方法：
+```shell
+npm install prop-types --save
+```
+
+```JavaScript
+import PropTypes from 'prop-types'
+
+在要使用类型检测的组件中使用:
+class Comment extends Component {
+
+   ...
+
+  static propTypes = {
+    comment: PropTypes.object
+  }
+
+  ...
+}
+
+```
