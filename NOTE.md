@@ -58,7 +58,7 @@ document.getElementById('root').appendChild(headerDOM)
 16、如上代码中所示，React.js 将组件渲染，并且构造 DOM 元素然后塞入页面的过程称为组件的**挂载**，其实 React.js 内部对待每个组件都有这么一个过程，也就是初始化组件 -> 挂载到页面上的过程。   
 React.js 控制组件在页面上挂载和删除过程里面几个方法：`componentWillMount`：组件挂载开始之前，也就是在组件**调用 render 方法之前**调用。`componentDidMount`：组件挂载完成以后，也就是 **DOM 元素已经插入页面**后调用。`componentWillUnmount`：组件对应的 **DOM 元素从页面中删除之前**调用。  
 
-17、我们一般会把组件的 `state` 的初始化工作放在 `constructor` 里面去做；在 `componentWillMount` 进行组件的启动工作，例如 **Ajax 数据拉取、定时器的启动**；组件从页面上销毁的时候，有时候需要一些数据的清理，例如**定时器的清理**，就会放在 `componentWillUnmount` 里面去做。有些组件的启动工作是依赖 DOM 的，例如**动画的启动**，而 componentWillMount 的时候组件还没挂载完成，所以没法进行这些启动工作，这时候就可以把这些操作放在 `componentDidMount` 当中。  
+17、我们一般会把组件的 `state` 的初始化工作放在 `constructor` 里面去做；在 `componentWillMount` 进行组件的启动工作，例如 **Ajax 数据拉取、定时器的启动**；即一些**不依赖 DOM 操作**的组件启动的操作都可以放在 `componentWillMount` 中进行；组件从页面上销毁的时候，有时候需要一些数据的清理，例如**定时器的清理**，就会放在 `componentWillUnmount` 里面去做。有些组件的启动工作是依赖 DOM 的，例如**动画的启动**，而 componentWillMount 的时候组件还没挂载完成，所以没法进行这些启动工作，这时候就可以把这些操作放在 `componentDidMount` 当中。  
 18、React.js 当中提供了 `ref` 属性来帮助我们获取**已经挂载**的元素的 DOM 节点，如：    
 ```JavaScript
 class AutoFocusInput extends Component {
@@ -99,7 +99,7 @@ class Layout extends Component {
 }
 ```  
 
-20、出于安全考虑的原因（XSS 攻击），在 React.js 当中所有的表达式插入的内容都会被自动转义，如`{<h1>react</h1>}`，表达式插入并不会把一个 <h1> 渲染到页面，而是把它的文本形式渲染了。所以React.js 提供了一个属性 `dangerouslySetInnerHTML`，可以让我们设置动态设置元素的 innerHTML：
+20、出于安全考虑的原因（XSS 攻击），在 React.js 当中所有的表达式插入的内容都会被自动转义，如`{<h1>react</h1>}`，表达式插入并不会把一个 `<h1>` 渲染到页面，而是把它的文本形式渲染了。所以React.js 提供了一个属性 `dangerouslySetInnerHTML`，可以让我们设置动态设置元素的 `innerHTML`：
 ```JavaScript
 render () {
     return (
@@ -142,3 +142,19 @@ class Comment extends Component {
 }
 
 ```
+
+23、React组件编写规范：
+- 组件的私有方法都用 _ 开头，所有事件监听的方法都用 handle 开头。把事件监听方法传给组件的时候，属性名用 on 开头，例如：
+```JavaScript
+<CommentInput
+  onSubmit={this.handleSubmitComment.bind(this)} />
+```
+- 组件的内容编写顺序：
+1. static 开头的类属性，如 defaultProps、propTypes。
+2. 构造函数，constructor。
+3. getter/setter。
+4. 组件生命周期。
+5. _ 开头的私有方法。
+6. 事件监听方法，handle*。
+7. render*开头的方法，有时候 render() 方法里面的内容会分开到不同函数里面进行，这些函数都以 render* 开头。
+8. render() 方法。
