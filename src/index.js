@@ -19,6 +19,7 @@ import AutoFocusInput from './AutoFocusInput';
 import BlackBorderContainer from './BlackBorderContainer';
 import Editor from './Editor';
 import getDefaultStyledPost from './getDefaultStyledPost';
+import Index4 from './Index4';
 
 const users = [
     {name: 'wade', age: 18, sex: 'male'},
@@ -37,7 +38,7 @@ const users = [
 //ReactDOM.render(<UserList />, document.getElementById('root'))
 //ReactDOM.render(<Entry />, document.getElementById('root'))
 //ReactDOM.render(<PercentageApp />, document.getElementById('root'))
-//ReactDOM.render(<Header3 />, document.getElementById('root'))
+ReactDOM.render(<Header3 />, document.getElementById('root'))
 //ReactDOM.render(<Index2 />, document.getElementById('root'))
 //ReactDOM.render(<Index3 />, document.getElementById('root'))
 //ReactDOM.render(<AutoFocusInput />, document.getElementById('root'))
@@ -51,11 +52,11 @@ const users = [
 //     </BlackBorderContainer>, 
 //     document.getElementById('root'))
 //ReactDOM.render(<Editor />, document.getElementById('root'))
-const Post = getDefaultStyledPost({ color: 'red' })
-ReactDOM.render(<Post style={{ color: 'blue', fontSize: '13px' }} />, document.getElementById('root'))
+//const Post = getDefaultStyledPost({ color: 'red' })
+//ReactDOM.render(<Post style={{ color: 'blue', fontSize: '13px' }} />, document.getElementById('root'))
 //ReactDOM.render(<Post style={{ fontSize: '12px' }} />, document.getElementById('root'))
 
-
+//ReactDOM.render(<Index4 />, document.getElementById('root'))
 //ReactDOM.render(<div>{ users.map((user, i) => <UserList key={i} user={user} />) }</div>, document.getElementById('root'))
 registerServiceWorker();
 
