@@ -38,7 +38,7 @@ const users = [
 //ReactDOM.render(<UserList />, document.getElementById('root'))
 //ReactDOM.render(<Entry />, document.getElementById('root'))
 //ReactDOM.render(<PercentageApp />, document.getElementById('root'))
-ReactDOM.render(<Header3 />, document.getElementById('root'))
+//ReactDOM.render(<Header3 />, document.getElementById('root'))
 //ReactDOM.render(<Index2 />, document.getElementById('root'))
 //ReactDOM.render(<Index3 />, document.getElementById('root'))
 //ReactDOM.render(<AutoFocusInput />, document.getElementById('root'))
@@ -56,7 +56,7 @@ ReactDOM.render(<Header3 />, document.getElementById('root'))
 //ReactDOM.render(<Post style={{ color: 'blue', fontSize: '13px' }} />, document.getElementById('root'))
 //ReactDOM.render(<Post style={{ fontSize: '12px' }} />, document.getElementById('root'))
 
-//ReactDOM.render(<Index4 />, document.getElementById('root'))
+ReactDOM.render(<Index4 />, document.getElementById('root'))
 //ReactDOM.render(<div>{ users.map((user, i) => <UserList key={i} user={user} />) }</div>, document.getElementById('root'))
 registerServiceWorker();
 
