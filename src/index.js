@@ -19,6 +19,7 @@ import AutoFocusInput from './AutoFocusInput';
 import BlackBorderContainer from './BlackBorderContainer';
 import Editor from './Editor';
 import getDefaultStyledPost from './getDefaultStyledPost';
+import Index4 from './Index4';
 
 const users = [
     {name: 'wade', age: 18, sex: 'male'},
@@ -55,7 +56,7 @@ ReactDOM.render(<Index2 />, document.getElementById('root'))
 //ReactDOM.render(<Post style={{ color: 'blue', fontSize: '13px' }} />, document.getElementById('root'))
 //ReactDOM.render(<Post style={{ fontSize: '12px' }} />, document.getElementById('root'))
 
-
+ReactDOM.render(<Index4 />, document.getElementById('root'))
 //ReactDOM.render(<div>{ users.map((user, i) => <UserList key={i} user={user} />) }</div>, document.getElementById('root'))
 registerServiceWorker();
 
