@@ -1,23 +1,29 @@
 import React, {Component} from 'react'
+import axios from 'axios'
 
-export default (WrappedComponent, name) => {
+export default (WrappedComponent) => {
     class NewComponent extends Component {
+
         constructor() {
             super()
             this.state = {
-                data: null
+                data: {
+                    username: ''
+                }
             }
         }
 
         componentWillMount() {
-            const data = localStorage.getItem(name) || 'test';
-            this.setState({
-                data
+            axios.get(`./${this.props.data}.json`).then((data) => {
+                this.setState({
+                    data: data.data
+                })
             })
         }
 
         render() {
-            console.log('render from load data')
+            //console.log(this.state.data)
+            console.log('render from ajax data')
             return (
                 <WrappedComponent data={this.state.data} />
             )
