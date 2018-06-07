@@ -56,8 +56,8 @@ const headerDOM = createDOMFromObject(headerJsxObject)
 document.getElementById('root').appendChild(headerDOM)
 ```
 16、如上代码中所示，React.js 将组件渲染，并且构造 DOM 元素然后塞入页面的过程称为组件的**挂载**，其实 React.js 内部对待每个组件都有这么一个过程，也就是初始化组件 -> 挂载到页面上的过程。   
-React.js 控制组件在页面上挂载和删除过程里面几个方法：`componentWillMount`：组件挂载开始之前，也就是在组件**调用 render 方法之前**调用。`componentDidMount`：组件挂载完成以后，也就是 **DOM 元素已经插入页面**后调用。`componentWillUnmount`：组件对应的 **DOM 元素从页面中删除之前**调用。  
-组件挂载的过程：
+- React.js 控制组件在页面上挂载和删除过程里面几个方法：`componentWillMount`：组件挂载开始之前，也就是在组件**调用 render 方法之前**调用。`componentDidMount`：组件挂载完成以后，也就是 **DOM 元素已经插入页面**后调用。`componentWillUnmount`：组件对应的 **DOM 元素从页面中删除之前**调用。  
+- 组件挂载的过程：
 ```JavaScript
 -> constructor()
 -> componentWillMount()
@@ -91,7 +91,7 @@ ReactDOM.render(
   document.getElementById('root')
 )
 ```
-基本原则：能不用 ref 就不用。特别是要避免用 ref 来做 React.js 本来就可以帮助你做到的页面自动更新的操作和事件监听。  
+**基本原则**：能不用 ref 就不用。特别是要避免用 ref 来做 React.js 本来就可以帮助你做到的页面自动更新的操作和事件监听。  
 
 19、使用自定义组件的时候，可以在其中嵌套 JSX 结构。嵌套的结构在组件内部都可以通过 `props.children` 获取到，这种组件编写方式在编写容器类型的组件当中非常有用。`props.children`其实是个数组，这种嵌套的内容成为了 props.children 数组的机制使得我们编写组件变得非常的灵活，我们甚至可以在组件内部把数组中的 JSX 元素安置在不同的地方，这样通过这个布局组件，就可以在各个地方高度复用我们的布局。如：
 ```JavaScript
@@ -126,7 +126,7 @@ render () {
 ```html
 <h1 style={{fontSize: '12px', color: 'red'}}>React.js</h1>
 ```
-style 接受一个对象，这个对象里面是这个元素的 CSS 属性键值对，原来 CSS 属性中带 - 的元素都必须要去掉 - 换成驼峰命名，如 font-size 换成 fontSize。用对象作为 style 方便我们动态设置元素的样式。我们可以用 `props` 或者 `state` 中的数据**生成样式对象**再传给元素，然后用 setState 就可以修改样式。如：
+`style`接受一个对象，这个对象里面是这个元素的 CSS 属性键值对，原来 CSS 属性中**带 `-` 的元素都必须要去掉 - 换成驼峰命名**，如 font-size 换成 fontSize。用对象作为 style 方便我们动态设置元素的样式。我们可以用 `props` 或者 `state` 中的数据**生成样式对象**再传给元素，然后用 setState 就可以修改样式。如：
 ```JavaScript
 <h1 style={{fontSize: '12px', color: this.state.color}}>React.js 小书</h1>
 setState({color: 'blue'})
@@ -177,4 +177,27 @@ class Comment extends Component {
 ```JavaScript
 const NewComponent = higherOrderComponent(OldComponent)
 ```
+```JavaScript
+import React, { Component } from 'react'
+
+//包装组件：NewComponent，被包装组件：形参WrappedComponent
+export default (WrappedComponent) => {
+  class NewComponent extends Component {
+    // 可以做很多自定义逻辑
+    constructor () {
+      super()
+      this.state = { data: null }
+    }
+
+    // 用props.data去
+    render () {
+      return <WrappedComponent data={this.state.data} />
+    }
+  }
+  return NewComponent
+}
+```
+- 如上代码所示，高阶组件其实就是为了**组件之间的代码复用**。组件可能有着某些相同的逻辑，把这些逻辑**抽离**出来，放到高阶组件中，以进行复用。高阶组件内部的包装组件和被包装组件之间通过 `props` 传递数据。
+- 高阶组件运用了设计模式里面的装饰者模式。它通过组合的方式达到很高的灵活程度。
+
 
