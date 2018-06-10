@@ -3,7 +3,7 @@
 1、可以用 JavaScript 对象来描述所有能用 HTML 表示的 UI 信息 => **所谓的 JSX 其实就是 JavaScript 对象**。JSX 是 JavaScript 语言的一种语法扩展，长得像 HTML，但并不是 HTML。
 => React.js 可以用 JSX 来**描述你的组件长什么样的**。所谓的 JSX 其实就是 **JavaScript 对象**
 
-2、React.js 中一切皆**组件** => 在编写 React.js 组件的时候，一般都需要继承 React.js 的 Component
+2、React.js 中一切皆**组件** => 在编写 React.js 组件的时候，一般都需要继承 React.js 的 `Component`，组件的本质就是一个ES6的class（类），ES5的构造function。
 
 3、一个组件类必须要实现一个 `render` 方法，这个 `render` 方法必须要返回一个 `JSX 元素`。但这里要注意的是，必须要用一个外层的 JSX 元素把所有内容**包裹**起来。返回并列多个 `JSX 元素`是不合法的。
 
