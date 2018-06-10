@@ -200,4 +200,50 @@ export default (WrappedComponent) => {
 - 如上代码所示，高阶组件其实就是为了**组件之间的代码复用**。组件可能有着某些相同的逻辑，把这些逻辑**抽离**出来，放到高阶组件中，以进行复用。高阶组件内部的包装组件和被包装组件之间通过 `props` 传递数据。
 - 高阶组件运用了设计模式里面的装饰者模式。它通过组合的方式达到很高的灵活程度。
 
+25、React中的context
+- 定义：React.js中某个组件只要往自己的 context 里面放了某些状态，这个组件之下的所有子组件都直接访问这个状态而不需要通过中间组件的传递。一个组件的 context 只有它的**子组件**能够访问，它的父组件是不能访问到的，你可以理解每个组件的 context 就是瀑布的源头，只能往下流不能往上飞。
+- 使用方法：（此处Index组件是所有子组件的父组件）
+```JavaScript
+//父组件：
+class Index extends Component {
+  //验证 getChildContext 返回的对象属性类型，如果你要给组件设置 context，那么 childContextTypes 是必写的。
+  static childContextTypes = {
+    themeColor: PropTypes.string
+  }
 
+  constructor () {
+    super()
+    this.state = { themeColor: 'red' }
+  }
+
+  //getChildContext 这个方法就是设置 context 的过程，它返回一个对象，就是 context，所有的子组件都可以访问到这个对象。
+  getChildContext () {
+    return { themeColor: this.state.themeColor }
+  }
+
+  render () {
+    return (
+      <div>
+        <Header />
+        <Main />
+      </div>
+    )
+  }
+}
+
+//子组件
+class Main extends Component {
+  //子组件要获取 context 里面的内容的话，就必须写 contextTypes 来声明和验证你需要获取的状态的类型，是必写的，如果你不写就无法获取 context 里面的状态。
+  static contextTypes = {
+    themeColor: PropTypes.string
+  }
+
+  render () {
+    {/** 通过 this.context.themeColor 获取到在 Index 放置的值为 red 的 themeColor */}
+    return (
+      <h1 style={{ color: this.context.themeColor }}>标题</h1>
+    )
+  }
+}
+```
+- 缺点：context 打破了组件和组件之间通过 props 传递数据的规范，极大地增强了组件之间的耦合性。而且，就如全局变量一样，context 里面的数据能被随意接触就能被随意修改，每个组件都能够改 context 里面的内容会导致程序的运行不可预料。
