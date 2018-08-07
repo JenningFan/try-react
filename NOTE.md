@@ -316,7 +316,53 @@ counter.x // => 2
     store.dispatch(...)
     ```
  28、React-redux
- - 背景：一个状态可能被多个组件依赖或者影响，而`React.js`并没有提供好的解决方案，我们只能把**状态提升**到依赖或者影响这个状态的所有组件的公共父组件上，后发现可以把共享状态放到父组件的`context`上，这个父组件下所有的组件都可以从`context`中直接获取到状态而不需要一层层地进行传递了。但是直接从 `context` 里面存放、获取数据增强了组件的耦合性（因为组件依赖于`context`，如果别人要用该组件，但是人家的组件树中没有context也没有store，就无法使用该组件了）；并且所有组件都可以修改`context`里面的状态，就像谁都可以修改共享状态一样，导致程序运行的不可预料。为了解决这一问题，可以将`redux`的`store`放在`react`的`context`中，即可由`store`来规范共享状态的修改。**所以`React-redux`就是将`react`的`context`和redux的`store`两个概念结合在一起利用。**
- - 
+ - 背景：一个状态可能被多个组件依赖或者影响，而`React.js`并没有提供好的解决方案，我们只能把**状态提升**到依赖或者影响这个状态的所有组件的公共父组件上，后发现可以把共享状态放到父组件的`context`上，这个父组件下所有的组件都可以从`context`中直接获取到状态而不需要一层层地进行传递了。但是直接从 `context` 里面存放、获取数据增强了组件的耦合性（因为组件依赖于`context`，如果别人要用该组件，但是人家的组件树中没有`context`也没有`store`，就无法使用该组件了）；并且所有组件都可以修改`context`里面的状态，就像谁都可以修改共享状态一样，导致程序运行的不可预料。为了解决这一问题，可以将`redux`的`store`放在`react`的`context`中，即可由`store`来规范共享状态的修改。**所以`React-redux`就是将`react`的`context`和redux的`store`两个概念结合在一起利用。**
+ - `Pure component`(也叫`Dumb Component`)
+  1. 如果一个组件的渲染只依赖于外界传进去的 `props` 和自己的 `state`，而并不依赖于其他的外界的任何数据，也就是说像纯函数一样，给它什么，它就吐出（渲染）什么出来。**这种组件的复用性是最强的**，别人使用的时候根本不用担心任何事情，只要看看 `PropTypes` 它能接受什么参数，然后把参数传进去控制它就行了。这种组件叫做 `Pure Component`，因为它就像纯函数一样，可预测性非常强，**对参数（`props`）以外的数据零依赖，也不产生副作用**。
+ - 高阶组件`connect` -- 连接`Dumb`组件和`context`的桥梁
+  1. 为了解决从`react`中取出 `context`，再从`context`取出里面的 `store`，然后用里面的状态设置自己的状态这一**重复的逻辑**，所以`react-redux`中提供了一个高阶组件，因为它把 `Dumb` 组件和 `context` 连接（connect）起来了，所以取名为`connect`，高阶组件`connect`**负责和 `context` 打交道**，把里面数据取出来通过 `props` 传给 `Dumb` 组件。
+  2. 但是每个传给`connect`的组件需要`store`里面的数据都不一样的，所以除了给高阶组件传入 `Dumb` 组件以外，**还需要告诉高级组件我们需要什么数据**，高阶组件才能正确地去取数据。所以我们要给`connect`传递一个函数`mapStateToProps`。
+      ```JavaScript
+        const mapStateToProps = (state, ownProps) => {
+          return {
+            themeColor: state.themeColor,
+            themeName: state.themeName,
+            fullName: `${state.firstName} ${state.lastName}`
+            ...
+          }
+        }
+      ```
+      这个函数会**接受 `store.getState()` 的结果作为参数**，然后**返回一个对象**，这个对象是根据 `state` 生成的。**mapStateTopProps 相当于告知了 Connect组件应该如何去 `store` 里面取数据**，然后可以把这个函数的返回结果**传给被包装的组件**。（即用来配合你传递给`connect`函数的`Dumb component`一起使用的，`Dumb component`要接收什么样的`props`，`connect`函数是不知道的，所以要通过`mapStateToProps`函数告知`connect`传给`Dumb component`的`props`是什么（对应`return`的对象的`key`），`props`应从`store`中取哪些值（对应`return`的对象的`value`））
+  3. 当我们传进去的`Dumb component`需要触发`dispatch`时，而`connect`函数也是不知道该传入什么`action`去触发`dispatch`，所以`mapDispatchToProps`是用来告诉`connect`函数我们传递的`Dumb component`需要如何触发 `dispatch`。
+     ```JavaScript
+     const mapDispatchToProps = (dispatch, ownProps) => {
+       return {
+         onSwitchColor: (color) => {
+           dispatch({ type: 'CHANGE_COLOR', themeColor: color })
+         }
+       }
+     }
+     ```
+     这个函数和`mapStateToProps`一样，它返回一个对象，这个对象内容会同样被 `connect` 当作是`props`参数传给被包装的组件。这个函数接受`dispatch`作为参数，你可以在返回的对象**内部定义一些函数，这些函数会用到特定的`action`来触发`dispatch`**
+- `Provider`组件 -- provide store的组件
+ 1. `Provider`组件一般都是作为整个组件树（或APP）的*根节点*，它做的事情很简单，**它就是一个容器组件**，*会把嵌套的内容原封不动作为自己的子组件渲染出来*。它还会把外界传给它的`props.store`放到 `context`，这样子组件 `connect` 的时候都可以获取到。
+ 2. 用法：
+ ```JavaScript
+ ReactDOM.render(
+  <Provider store={store}>
+    <Index />
+  </Provider>,
+  document.getElementById('root')
+ )
+ ```
+ 29. `Smart`组件和`Dumb`组件
+  - `Dumb`组件最好不要依赖除了 `React.js` 和 `Dumb` 组件以外的内容。它们不要依赖 `Redux` 不要依赖`React-redux`。这样的组件的可复用性是最好的，其他人可以安心地使用而不用怕会引入什么奇奇怪怪的东西。当我们拿到一个需求开始划分组件的时候，要认真考虑每个被划分成组件的单元到底会不会被复用。如果这个组件可能会在多处被使用到，那么我们就把它做成` Dumb` 组件。`Dumb`基本只做一件事情，就是根据`props`进行渲染。
+  - 另一种组件叫`Smart`组件。它们专门做数据相关的应用逻辑，和**各种数据打交道、和 Ajax 打交道，然后把数据通过 `props` 传递给 Dumb**，它们带领着 Dumb 组件完成了复杂的应用程序逻辑。`Smart`组件**不用考虑太多复用性**问题，它们就是用来执行特定应用逻辑的。`Smart` 组件可能组合了`Smart`组件和`Dumb`组件。但是`Dumb`组件尽量不要依赖 `Smart` 组件。因为 `Dumb` 组件目的之一是**为了复用**，一旦它引用了`Smart`组件就相当于带入了一堆应用逻辑，如果一个组件是 `Dumb`的，那么*它的子组件们都应该是 Dumb 的才对*。
+  - 约定俗成的规则：所有的 `Dumb` 组件都放在 `components/` 目录下，所有的 `Smart` 的组件都放在 `containers/` 目录下。
+  - 要根据应用场景不同划分组件，如果一个组件并**不需要太强的复用性，直接让它成为 `Smart` 即可**；否则就让它成为 `Dumb` 组件。
+  - `Smart` 组件并不意味着完全不能复用，`Smart` 组件的复用性是依赖场景的，在特定的应用场景下是当然是可以复用 `Smart` 的。而 `Dumb` 则是可以跨应用场景复用，`Smart` 和 `Dumb` 都可以复用，只是程度、场景不一样。
+
+
+
 
 
