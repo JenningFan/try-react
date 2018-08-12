@@ -156,7 +156,7 @@ class Comment extends Component {
 ```
 
 23、React组件编写规范：
-- 组件的私有方法都用 _ 开头，所有事件监听的方法都用 handle 开头。把事件监听方法传给组件的时候，属性名用 on 开头，例如：
+- 组件的私有方法都用 _ 开头，**所有事件监听的方法都用 `handle` 开头**。把事件监听方法**传给组件的时候，属性名用 `on` 开头**，例如：
 ```JavaScript
 <CommentInput
   onSubmit={this.handleSubmitComment.bind(this)} />
@@ -167,9 +167,9 @@ class Comment extends Component {
 3. getter/setter。
 4. 组件生命周期。
 5. _ 开头的私有方法。
-6. 事件监听方法，handle*。
-7. render*开头的方法，有时候 render() 方法里面的内容会分开到不同函数里面进行，这些函数都以 render* 开头。
-8. render() 方法。
+6. 事件监听方法，`handle*`。
+7. `render*`开头的方法，有时候 `render()` 方法里面的内容会分开到不同函数里面进行，这些函数都以 `render*` 开头。
+8. `render()` 方法。
 
 24、高阶组件：
 - 作用：灵活地使用高阶组件，可以让你代码更加优雅，复用性、灵活性更强。
@@ -294,7 +294,7 @@ counter.x // => 2
 - `redux`解决了什么问题：
  1. 不同组件有些场景下是需要共享某些状态（数据），还可能需要修改这些共享数据，那么一旦数据可以任意修改，所有对**共享状态的操作都是不可预料的**，出现问题的时候debug起来就非常困难，所以要使用`redux`对共享数据进行规范化操作，使得所以更改都变得**可跟踪**。
  2. 在`redux`中，不能直接操作共享数据，所有对数据的操作**必须通过 `dispatch` 函数**。它接受一个参数 `action`，这个 action 是一个普通的 JavaScript 对象，里面**必须包含一个 `type` 字段**来声明你到底想干什么。即任何组件想要修改共享数据，必须大张旗鼓地调用`dispatch`。
- 3. `redux`的核心概念是`store`，通过`createStore(reducer)`函数生成`store`，该函数接收参数`reducer`是一个**函数**，这个函数规定是一个**纯函数**，它接受两个参数，一个是`state`，一个是`action`。`state`是保存共享数据的对象，`action`是描述如何更改数据的对象。`reducer`既充当了**获取初始化数据（state）的功能**，也充当了**生成更新数据(计算出新的state)的功能**。
+ 3. `redux`的核心概念是`store`，通过`createStore(reducer)`函数生成`store`，该函数接收参数`reducer`是一个**函数**，这个函数规定是一个**纯函数**，它接受两个参数，一个是`state`，一个是`action`。`state`是保存共享数据的对象，`action`是描述如何更改数据的对象。`reducer`既充当了**获取初始化数据（state）的功能**，也充当了**生成更新数据(计算出新的state)的功能**，简单来说，`reducer`就是用来**描述数据的形态和相应的变更的工具函数**。
  4. `redux`的`store`暴露三个方法`dispatch`，`getState`，`subscribe`。通过 `store.getState`我们获取共享状态，而且我们约定只能通过 `store.dispatch`修改共享状态。`store` 也允许我们通过`store.subscribe`**监听数据变化**，一旦数据状态被修改（即我们调用了`dispatch`，与之对应的是`redux`内部帮我们调用了`reducer`），并进行后续的例如重新渲染页面的操作（即往`subscribe`中传入重新渲染页面的`function`，因在`react`中state的变化会引起重新渲染页面，所以在`react`中传入调用了`setState`的函数）。
  - 使用套路：
     ```JavaScript
@@ -361,6 +361,27 @@ counter.x // => 2
   - 约定俗成的规则：所有的 `Dumb` 组件都放在 `components/` 目录下，所有的 `Smart` 的组件都放在 `containers/` 目录下。
   - 要根据应用场景不同划分组件，如果一个组件并**不需要太强的复用性，直接让它成为 `Smart` 即可**；否则就让它成为 `Dumb` 组件。
   - `Smart` 组件并不意味着完全不能复用，`Smart` 组件的复用性是依赖场景的，在特定的应用场景下是当然是可以复用 `Smart` 的。而 `Dumb` 则是可以跨应用场景复用，`Smart` 和 `Dumb` 都可以复用，只是程度、场景不一样。
+  
+  30. reducer文件
+  - 把所有 `reducer` 抽出来放在一个目录下 `src/reducers`
+  - 思考接下来的功能对于共享状态**有什么操作**，想清楚以后我们才能写好`reducer`，因为`reducer`就是用来描述数据的形态和相应的变更。
+  - `action creators`:
+   1. 之前我们使用 `dispatch` 的时候，都是直接手动构建对象：
+      ```JavaScript
+      dispatch({ type: 'INIT_COMMENTS', comments })
+      ```
+      每次都要写 `type` 其实挺麻烦的，而且还要去记忆 action type 的名字也是一种负担。我们**可以把 `action` 封装到一种函数里面，让它们去帮助我们去构建这种 action**，我们把它叫做 action creators。
+      所谓 action creators 其实就是**返回符合action规范的对象（即要有一个字段是`type`的对象）的函数**，这样我们 `dispatch` 的时候**只需要传入数据**就可以了：
+      ```JavaScript
+      dispatch(initComments(comments))
+      ```
+      `action creators` 还有额外好处就是可以帮助我们**对传入的数据做统一的处理**；而且有了 `action creators`，代码测试起来会更方便一些。
+  - 写 `reducer`文件的规范: （参考comment-app的reducers/comments.js）
+   1. 定义 action types
+   2. 编写 reducer
+   3. 跟这个 reducer 相关的 action creators  
+- 类比于MVC/MVP模式，Dumb组件就是 `View`（负责渲染），Smart组件就是与之对应的`Controller（Presenter）`，`State`其实就有点类似`Model`。即一个Dumb组件(`view`)由一个`controller`控制（经过`connect`的Dumb组件，即Smart组件），各自组件中保存着只有自己能使用的state(即Model)，`state`的改变会导致`view`的刷新，`view`想改变`store.state`必须经过`dispatch`函数（即单向数据流），而`store.state`存储的则是所有controller和view共享的data。
+ ![参考图片](https://huzidaha.github.io/static/assets/img/posts/6F7A1EE0-9AF4-4AB3-B554-A01E9074FC3C.png)
 
 
 
